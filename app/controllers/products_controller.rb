@@ -1,10 +1,14 @@
 class ProductsController < ApplicationController
+
+    before_action :find_product, only: [:show, :destroy]
+
     def index
         products = Product.all
         render json: products
     end
 
     def show
+        render json: @product
     end 
 
     def create
@@ -18,9 +22,14 @@ class ProductsController < ApplicationController
     end 
 
     def destroy
+        @product.destroy
     end 
 
     private
+
+    def find_product
+        @product = Product.find(params[:id])
+    end
 
     def product_params
       params.require(:product).permit(
